@@ -1,12 +1,35 @@
+from collections import deque
+
 '''
 Input: a List of integers as well as an integer `k` representing the size of the sliding window
 Returns: a List of integers
 '''
 def sliding_window_max(nums, k):
-    # Your code here
 
-    pass
+    n = len(nums)
+    QI = deque()
+    max_arr = []
+    
+    for i in range(k):
+        while QI and nums[i] >= nums[QI[-1]]:
+            QI.pop()
+    
+        QI.append(i)
 
+    for i in range(k, n):
+        max_arr.append(nums[QI[0]])
+
+        while QI and QI[0] <= i - k:
+            QI.popleft()
+
+        while QI and nums[i] >= nums[QI[-1]]:
+            QI.pop()
+        
+        QI.append(i)
+
+    max_arr.append(nums[QI[0]])
+
+    return max_arr
 
 if __name__ == '__main__':
     # Use the main function here to test out your implementation 
